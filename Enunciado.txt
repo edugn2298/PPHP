@@ -1,0 +1,66 @@
+Desarrolla una tienda e-commerce utilizando PHP y SQL. La tienda mostrará una lista de productos, pero no incluirá un sistema de compras. El objetivo principal es implementar funcionalidades de autenticación, administración de productos y gestión de usuarios, diferenciando entre los roles de usuario y administrador.
+
+Funcionalidades Requeridas:
+- Autenticación: Registro de usuarios: Los usuarios deben poder registrarse proporcionando su nombre, apellido, correo electrónico, y una contraseña segura.
+- Login: El sistema debe permitir a los usuarios iniciar sesión utilizando su correo electrónico y contraseña.
+- Recuperación de contraseña: El sistema debe ofrecer una opción de recuperación de contraseña segura, con un mecanismo que el estudiante investigue e implemente. Este mecanismo debe garantizar tanto la seguridad como la comodidad del usuario (por ejemplo, a través de un enlace enviado por correo electrónico para restablecer la contraseña).
+
+Roles:
+- Usuarios: Pueden visualizar productos y gestionar su perfil personal.
+- Administradores: Tienen todos los permisos de un usuario, pero además pueden crear, modificar y eliminar tanto usuarios como productos.
+
+Gestión de Usuarios:
+- Roles: Deben existir dos roles claramente diferenciados:
+- Usuario ("user"): Puede ver los productos disponibles en la tienda y modificar su información personal (nombre, apellido, correo, contraseña) a través de una página de "Mi cuenta".
+- Administrador ("admin"): Tiene acceso completo a las funciones del sistema, lo que incluye la gestión de usuarios (crear, editar, eliminar) y productos. Los usuarios no podrán acceder a las áreas del administrador.
+
+Gestión de Productos:
+Los productos deben mostrarse en la página principal.
+
+Un producto contiene los siguientes atributos:
+- Nombre: Nombre del producto.
+- Descripción: Detalle del producto.
+- Precio: Precio del producto.
+- Imagen: Cada producto debe tener una imagen; si no se especifica, debe mostrarse una imagen por defecto.
+
+Los administradores pueden gestionar los productos:
+- Crear nuevos productos.
+- Editar productos existentes.
+- Eliminar productos del inventario.
+- Consideraciones Técnicas:
+
+Modelo de Usuario:
+El usuario debe contener los siguientes campos:
+- Nombre (obligatorio)
+- Apellido (obligatorio)
+- Correo electrónico (obligatorio y único)
+- Contraseña (almacenada de forma segura utilizando password_hash() o una alternativa segura)
+- Rol (valores posibles: "user" o "admin")
+- Fecha de creación (se guarda automáticamente al registrar)
+- Fecha de actualización (se actualiza automáticamente al modificar la información)
+
+Acceso a las Páginas:
+Usuarios solo podrán acceder a las páginas de:
+- Inicio: Donde podrán visualizar los productos disponibles.
+- Mi cuenta: Donde podrán gestionar su información personal.
+
+Administradores tendrán acceso adicional a:
+- Panel de administración: Desde donde podrán gestionar usuarios y productos. Este panel será invisible e inaccesible para usuarios sin permisos de administrador.
+
+Recuperación de Contraseña:
+El sistema debe implementar un mecanismo seguro de recuperación de contraseñas, como:
+- Envío de un correo electrónico con un enlace temporal que permita al usuario restablecer su contraseña.
+- Alternativamente, se puede usar un sistema de preguntas de seguridad (aunque este método es menos recomendable por razones de seguridad).
+El estudiante debe investigar la mejor opción para implementar este mecanismo y asegurarse de seguir las mejores prácticas de seguridad, como limitar el tiempo de validez del enlace de restablecimiento y evitar el uso de contraseñas en texto plano.
+
+Páginas a Implementar:
+- Inicio: Página principal que muestra una lista de productos. Todos los usuarios (loggeados o no) pueden acceder a esta página para ver los productos.
+- Mi cuenta: Página accesible solo para usuarios autenticados. Aquí el usuario podrá ver y modificar su información personal, como nombre, apellido, correo y contraseña.
+- Panel de Administración: Solo accesible para administradores. En este panel, los administradores podrán gestionar usuarios (crear, modificar y eliminar) y productos (añadir, modificar y eliminar).
+- Producto: Página que muestra los detalles de un producto específico. Cada producto tiene su propia página con su descripción, precio e imagen.
+
+Requisitos de Seguridad:
+- Autenticación segura: Uso de password_hash() para almacenar contraseñas de forma segura y password_verify() para la autenticación.
+- Validación de entradas: Todos los formularios deben ser validados tanto en el lado del cliente (JavaScript) como en el lado del servidor (PHP) para evitar inyecciones SQL o ataques XSS.
+- Acceso basado en roles: Los usuarios no autenticados no podrán acceder a las áreas protegidas y las funciones de administración solo estarán disponibles para usuarios con rol de administrador.
+- Sesiones seguras: Utilización de session_start() para manejar las sesiones y asegurar que los datos de sesión no sean vulnerables a ataques de secuestro de sesión (Session Hijacking).

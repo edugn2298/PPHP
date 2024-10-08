@@ -1,0 +1,47 @@
+//CREACION DE LA TABLA USERS
+
+CREATE TABLE Users (
+	id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name varchar(100) NOT NULL,
+    lastname varchar(100) NOT NULL,
+    email varchar(100) UNIQUE,
+    password varchar(100),
+    user_type ENUM('user','admin'),
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    
+);
+
+//creacion de usuarios
+
+INSERT INTO Users (name,lastname,email,password,user_type) 
+    Values($name,$lastname,$email,$password)
+
+//actualizacion de usuarios
+
+UPDATE Users
+SET name = $name, lastname=$lastname,email=$email,password=$password
+WHERE ID = ""
+
+//eliminar usuarios
+
+DELETE FROM Users WHERE ID = ""
+
+
+//CREACION DE TABLA Products
+
+CREATE TABLE Products (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    name varchar(100) NOT NULL,
+    description TEXT,
+    price FLOAT(10,2) NOT NULL,
+    image LONGBLOB,
+    fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    fecha_actualizacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+ 
+);
+
+
+//creacion de priductos
+//actualizacion de productos
+//eliminar productos
