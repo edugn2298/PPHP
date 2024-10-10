@@ -30,75 +30,142 @@
   <div class="container mx-auto p-4">
     <div class="flex">
       <!-- Lado izquierdo: Formulario -->
-      <div class="w-1/2 p-4 bg-white rounded shadow">
-        <h2 class="text-lg font-semibold mb-4">Agregar Usuario</h2>
-        <form action="guardar_usuario.php" method="post">
+      <div id="users_edit_form" class="w-1/2 p-4 bg-white rounded shadow hidden">
+        <h2 class="text-lg font-semibold mb-4">Editar Usuario</h2>
+        <form id="edit-user-form" method="post">
           <div class="mb-4">
-            <label for="nombre" class="block font-medium">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" class="w-full border rounded p-2">
+            <label for="user_id" class="block text-gray-700">ID</label>
+            <input type="text" id="edit-id" name="user-id" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <div class="mb-4">
-            <label for="apellido" class="block font-medium">Apellido:</label>
-            <input type="text" id="apellido" name="apellido" class="w-full border rounded p-2">
+            <label for="name" class="block text-gray-700">Nombre</label>
+            <input type="text" id="edit-name" name="name" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <div class="mb-4">
-            <label for="correo" class="block font-medium">Correo:</label>
-            <input type="email" id="correo" name="correo" class="w-full border rounded p-2">
+            <label for="lastname" class="block text-gray-700">Apellido</label>
+            <input type="text" id="edit-lastname" name="lastname" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <div class="mb-4">
-            <label for="tipo_usuario" class="block font-medium">Tipo de Usuario:</label>
-            <select id="tipo_usuario" name="tipo_usuario" class="w-full border rounded p-2">
-              <option value="admin">Administrador</option>
-              <option value="regular">Regular</option>
+            <label for="email" class="block text-gray-700">Email</label>
+            <input type="email" id="edit-email" name="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="user_type" class="block text-gray-700">Tipo de Usuario</label>
+            <select name="user_type" id="edit-user-type" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+              <option value="">-- Seleccione --</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
             </select>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-gray-700">Contraseña</label>
+            <input type="password" id="edit-password" name="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="confirmar-clave" class="block text-gray-700">Confirmar Contraseña</label>
+            <input type="password" name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Guardar</button>
         </form>
-      </div>
 
+      </div>
+      <!-- Lado izquierdo: Formulario -->
+      <div id="users_add_form" class="w-1/2 p-4 bg-white rounded shadow">
+      <h2 class="text-2xl font-semibold mb-4">Agregar Usuario</h2>
+        <form action="../Backend/UserController.php" method="POST">
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700">Nombre</label>
+            <input type="text" id="add-name" name="name" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="lastname" class="block text-gray-700">Apellido</label>
+            <input type="text" id="add-lastname" name="lastname" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700">Email</label>
+            <input type="email" id="add-email" name="email" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="user_type" class="block text-gray-700">Tipo de Usuario</label>
+            <select name="user_type" id="add-user-type" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+              <option value="">-- Seleccione --</option>
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </select>
+          </div>
+          <div class="mb-4">
+            <label for="password" class="block text-gray-700">Contraseña</label>
+            <input type="password" name="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <div class="mb-4">
+            <label for="confirmar-clave" class="block text-gray-700">Confirmar Contraseña</label>
+            <input type="password" name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+          </div>
+          <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none">Registrarse</button>
+        </form>
+      </div>
       <!-- Lado derecho: Tabla -->
-      <div id="users-table"  class="w-1/2 p-4 ml-4 bg-white rounded shadow">
-        <h2 class="text-lg font-semibold mb-4">Lista de Usuarios</h2>
-        <table class="w-full">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Apellido</th>
-              <th>Correo</th>
-              <th>Tipo de Usuario</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!--
-            <?php foreach ($users as $user): ?>
-            <tr>
-              <td><?= $user['id'] ?></td>
-              <td><?= $user['name'] ?></td>
-              <td><?= $user['surname'] ?></td>
-              <td><?= $user['email'] ?></td>
-              <td><?= $user['user_type'] ?></td>
-              <td>
-                <button class="text-blue-500 hover:underline mr-2">Editar</button>
-                <button class="text-red-500 hover:underline">Eliminar</button>
-              </td>
-            </tr>
-            <?php endforeach; ?>-->
-            <tr>
-              <td>1</td>
-              <td>John</td>
-              <td>Doe</td>
-              <td>john@example.com</td>
-              <td>Admin</td>
-              <td>
-                <button class="text-blue-500 hover:underline mr-2">Editar</button>
-                <button class="text-red-500 hover:underline">Eliminar</button>
-              </td>
-            </tr>
-            <!-- Repite para otros usuarios -->
-          </tbody>
-        </table>
+      <div id="users-table"  class="w-1/2 p-4 ml-4 bg-white rounded shadow flex flex-col justify-between ">
+        <div>
+          <h2 class="text-lg font-semibold mb-4">Lista de Usuarios</h2>
+          <table class="w-full">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Correo</th>
+                <th>Tipo de Usuario</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!--
+              <tr>
+                <td>1</td>
+                <td>John</td>
+                <td>Doe</td>
+                <td>john@example.com</td>
+                <td>Admin</td>
+                <td>
+                  <button class="text-blue-500 hover:underline mr-2">Editar</button>
+                  <button class="text-red-500 hover:underline">Eliminar</button>
+                </td>
+              </tr>
+              -->
+              <!-- Datos del servidor MYSQL -->
+              <?php
+              require_once "../config/connection.php";
+              if ($conexion != null) {
+                error_log("Conexión establecida");
+                require_once "../Backend/UserController.php";
+                $userController = new UserController($conexion);
+                $users = $userController->GetAllUsers();
+
+                if (!empty($users)) {
+                  foreach ($users as $user) {
+                      echo "<tr>";
+                      echo "<td>" . $user['id'] . "</td>";
+                      echo "<td>" . $user['name'] . "</td>";
+                      echo "<td>" . $user['lastname'] . "</td>";
+                      echo "<td>" . $user['email'] . "</td>";
+                      echo "<td>" . $user['user_type'] . "</td>";
+                      echo "<td>";
+                      echo "<button class='btn-edit-user text-blue-500 hover:underline mr-2'>Editar</button>";
+                      echo "<button class='btn-delete-user text-red-500 hover:underline'>Eliminar</button>";
+                      echo "</td>";
+                      echo "</tr>";
+                  }
+              } else {
+                echo "Conexión fallida";
+              }
+              }
+              ?>
+            </tbody>
+          </table>
+        </div>
+        
+        <button id="btn_add_user" class="bg-red-500 text-white px-4 py-2 w-48 rounded hover:bg-red-600">Nuevo Usuario</button>
       </div>
     </div>
   </div>

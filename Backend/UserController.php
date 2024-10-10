@@ -7,10 +7,20 @@
     }
 
     public function GetAllUsers(){
-      require_once "./UserModel.php";
-      $user_Model = new UserModel();
-      $users = $user_Model->GetAllUsers($this->conexion);
-      return $users;
+      $sql = ("SELECT * FROM Users");
+      $result = $this->conexion->query($sql);
+      try {
+        if ($result->num_rows > 0) {
+          $result = $result->fetch_all(MYSQLI_ASSOC);
+          $json = json_encode($result);
+          return $result;
+        } else {
+          return [];
+        }
+      } catch (Exception $e) {
+        echo "Error: " . $e->getMessage();
+      }
+
     }
 
     public function UserUpdate($id,$name,$lastname,$email,$user_type){
@@ -40,9 +50,9 @@
         $user_register_resultado = $user_Model->registerUser($this->conexion,$nombre,$apellido,$email,$clave,$user_type);
 
       if ($user_registro_resultado){
-          header("Location: UserRegistroResultado.php" );
+          header("Location: ../index.php" );
         } else {
-          header("Location: UserRegistroResultado.php" );
+          header("Location: ../index.php" );
         }      
     }
   }
@@ -76,7 +86,7 @@ if(isset($_POST['name']) && isset($_POST['lastname']) && isset($_POST['email']) 
   $Registro->UserProcessRegister();
 
 }else{
-  echo "No se recibio el Post😒";
+  error_log("No se recibio el Post");
 }
 
 if(isset($_POST['email']) && isset($_POST['clave'])){
@@ -84,7 +94,7 @@ if(isset($_POST['email']) && isset($_POST['clave'])){
   $Login = new UserController($conexion);
   $Login->UserProcessLogin();
 }else{
-  echo "No se recibio el Post😒😒";
+  error_log("No se recibio el Post😒😒");
 }
 
 if (isset($_POST['action']) && $_POST['action'] == 'update_user') {
@@ -96,23 +106,22 @@ if (isset($_POST['action']) && $_POST['action'] == 'update_user') {
   $user_update = new UserController($conexion);
   $user_update->UserUpdate($id,$name,$lastname,$email,$user_type);
 
-  echo "Se recibio el action";
+  error_log("Se recibio el action");
   echo $id;
 } else{
-  echo "No se recibio el action";
+  error_log("No se recibio el action");
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $data = json_decode(file_get_contents('php://input'), true);
   if (isset($_GET['action']) && $_GET['action'] == 'GetAllUsers') {
     $user_controller = new UserController($conexion);
-    $user_controller->GetAllUsers();
+    $users = $user_controller->GetAllUsers();
+    return $users;
+
   }
 } else {
-    return json_encode(['status' => 'error', 'message' => 'Invalid request method.']);
-}
-
-
-
+    return false;
+}*/
 
 ?>
