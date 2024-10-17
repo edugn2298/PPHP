@@ -20,6 +20,12 @@ class UserController {
     $this->conexion = $conexion;
   }
 
+  public function GetAllUsers() {
+    $user_Model = new UserModel();
+    $users = $user_Model->GetAllUsers($this->conexion);
+    echo $users;
+  }
+
   public function GetUserById($user_id) {
     $user_Model = new UserModel();
     $user = $user_Model->GetUserById($this->conexion, $user_id);
@@ -38,26 +44,104 @@ class UserController {
     echo $result;
   }
 
+  public function CreateUser($user_data) {
+    $user_Model = new UserModel();
+    $create_result = $user_Model->CreateUser($this->conexion, $user_data);
+    echo $create_result;
+  }
+
+  public function LoginUser($user_data) {
+    $user_Model = new UserModel();
+    $login_result = $user_Model->loginUser($this->conexion, $user_data['email'], $user_data['password']);
+    echo $login_result;
+  }
+
+  public function updatedPassword($user_data) {
+    $user_Model = new UserModel();
+    $update_result = $user_Model->updatedPassword($this->conexion, $user_data);
+    echo $update_result;
+  }
+
+  public function RecoveryPassword($user_data) {
+    $user_Model = new UserModel();
+    $update_result = $user_Model->RecoveryPassword($this->conexion, $user_data);
+    echo $update_result;
+  }
+
 }
 
 $user_controller = new UserController($conexion);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $data = json_decode(file_get_contents('php://input'), true);
-  if(isset($data['action'])){
-    if ($data['action'] == 'GetUserById' && isset($data['user_id'])) {
-      $user_controller->GetUserById($data['user_id']);
-    } elseif ($data['action'] == 'UpdateUser') {
+
+  if (json_last_error() !== JSON_ERROR_NONE) {
+    echo json_encode(['success' => false, 'message' => 'Error en la sintaxis JSON: ' . json_last_error_msg()]);
+    exit;
+  }
+
+  if (!isset($data['action'])) {
+    echo json_encode(['success' => false, 'message' => 'Acción no especificada']);
+    exit;
+  }
+
+  switch ($data['action']) {
+    case 'GetUserById':
+      if (isset($data['user_id'])) {
+        $user_controller->GetUserById($data['user_id']);
+      } else {
+        echo json_encode(['success' => false, 'message' => 'ID de usuario no especificado']);
+      }
+      break;
+
+    case 'UpdateUser':
       $user_controller->UpdateUser($data);
-    } elseif ($data['action'] == 'DeleteUserByID' && isset($data['user_id']) ){
-      $user_controller->DeleteUserByID($data['user_id']);
-    }
-  } else {
-    echo json_encode(['success' => false, 'message' => 'Acción no válida']);
+      break;
+
+    case 'DeleteUserByID':
+      if (isset($data['user_id'])) {
+        $user_controller->DeleteUserByID($data['user_id']);
+      } else {
+        echo json_encode(['success' => false, 'message' => 'ID de usuario no especificado']);
+      }
+      break;
+
+    case 'CreateUser':
+      $user_controller->CreateUser($data);
+      break;
+
+    case 'LoginUser':
+      $user_controller->LoginUser($data);
+      break;
+
+    case 'GetAllUsers':
+      $user_controller->GetAllUsers();
+      break;
+
+    case 'UpdatedPassword':
+      $user_controller->updatedPassword($data);
+      break;
+    
+    case 'RecoveryPassword':
+      $user_controller->RecoveryPassword($data);
+      break;
+    
+    case 'RecoveryPass':
+      if ($data['code'] === $GLOBALS['token']) {
+        header("Location: $APP_URL .View/UserPassRecovery.php?view=token");
+      }else{
+        echo json_encode(['success' => false, 'message' => 'Token incorrecto,intente de nuevo']);
+      }
+      break;
+
+    default:
+      echo json_encode(['success' => false, 'message' => 'Acción no válida']);
+      break;
   }
 } else {
   echo json_encode(['success' => false, 'message' => 'Método de solicitud inválido']);
 }
+
 
 
 ?>

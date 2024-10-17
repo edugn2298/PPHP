@@ -3,15 +3,16 @@
   $APP_URL = 'http://localhost/PPHP'; 
   session_start();
   if (!isset($_SESSION['user_type'])) {
-    header("Location:" . $APP_URL . "/View/UserLogin.php"); 
+    header("Location:" . $APP_URL . "/View/AdminPanelLogin.php"); 
   } else if ($_SESSION['user_type'] != 'admin') {
     header("Location:" . $APP_URL . "./Index.php"); 
   }
+  echo $_SESSION['user_type'],$_SESSION['email'],$_SESSION['id'];
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <?php require_once "./head.php" ?> 
+  <?php require_once "./Templates/head.php" ?> 
 </head>
 <body class="bg-gray-100">
 
@@ -24,6 +25,7 @@
         <li><a href="<?php echo $APP_URL ?> ./View/AdminPanelHome.php" class="block p-4 hover:bg-gray-700">Dashboard</a></li>
         <li><a href="<?php echo $APP_URL ?> ./View/AdminPanelProducts.php" class="block p-4 hover:bg-gray-700">Productos</a></li>
         <li><a href="<?php echo $APP_URL ?> ./View/AdminPanelUsers.php" class="block p-4 hover:bg-gray-700">Usuarios</a></li>
+        <li><a href="<?php echo $APP_URL ?> ./View/AdminPanelLogOut.php" class="block p-4  hover:bg-gray-700 ">Cerrar sesión</a></li>
       </ul>
   </nav>
 
@@ -63,7 +65,7 @@
           </div>
           <div class="mb-4">
             <label for="confirmar-clave" class="block text-gray-700">Confirmar Contraseña</label>
-            <input type="password" name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+            <input type="password" id='edit-password-confirm' name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Guardar</button>
         </form>
@@ -95,11 +97,11 @@
           </div>
           <div class="mb-4">
             <label for="password" class="block text-gray-700">Contraseña</label>
-            <input type="password" name="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+            <input type="password" id="add-password" name="password" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <div class="mb-4">
             <label for="confirmar-clave" class="block text-gray-700">Confirmar Contraseña</label>
-            <input type="password" name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
+            <input type="password" id='add-password-confirm' name="confirmar-clave" class="w-full px-3 py-2 border rounded focus:outline-none focus:border-blue-500">
           </div>
           <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none">Registrarse</button>
         </form>
@@ -120,47 +122,7 @@
               </tr>
             </thead>
             <tbody>
-              <!--
-              <tr>
-                <td>1</td>
-                <td>John</td>
-                <td>Doe</td>
-                <td>john@example.com</td>
-                <td>Admin</td>
-                <td>
-                  <button class="text-blue-500 hover:underline mr-2">Editar</button>
-                  <button class="text-red-500 hover:underline">Eliminar</button>
-                </td>
-              </tr>
-              -->
-              <!-- Datos del servidor MYSQL -->
-              <?php
-              require_once "../config/connection.php";
-              if ($conexion != null) {
-                error_log("Conexión establecida");
-                require_once "../Backend/UserController.php";
-                $userController = new UserController($conexion);
-                $users = $userController->GetAllUsers();
-
-                if (!empty($users)) {
-                  foreach ($users as $user) {
-                      echo "<tr>";
-                      echo "<td>" . $user['id'] . "</td>";
-                      echo "<td>" . $user['name'] . "</td>";
-                      echo "<td>" . $user['lastname'] . "</td>";
-                      echo "<td>" . $user['email'] . "</td>";
-                      echo "<td>" . $user['user_type'] . "</td>";
-                      echo "<td>";
-                      echo "<button class='btn-edit-user text-blue-500 hover:underline mr-2'>Editar</button>";
-                      echo "<button class='btn-delete-user text-red-500 hover:underline'>Eliminar</button>";
-                      echo "</td>";
-                      echo "</tr>";
-                  }
-              } else {
-                echo "Conexión fallida";
-              }
-              }
-              ?>
+              <!--Se insertan los datos desde la base de datos-->
             </tbody>
           </table>
         </div>
@@ -170,6 +132,6 @@
     </div>
   </div>
   </div>
-  <script src="../Backend/js/AdminUserJS.js"> </script>
+  <script type="module" src="../Backend/js/AdminUserJS.js"> </script>
 </body>
 </html>

@@ -1,6 +1,8 @@
 <?php
   $APP_URL = 'http://localhost/PPHP';
-  session_start();
+  if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+  }
   if (!isset($_SESSION['email'])) {
     echo '
     
@@ -11,9 +13,9 @@
       </div>
 
       <div class="space-x-4">
-        <a href="' . $APP_URL . '/View/index.php" class="text-blue-500 hover:underline">Inicio</a>
-        <a href="' . $APP_URL . '/View/UserRegister.php" class="text-blue-500 hover:underline">Registrarse</a>
-        <a href="' . $APP_URL . '/View/UserLogin.php" class="text-blue-500 hover:underline">Iniciar sesión</a>
+        <a href="' . $APP_URL . '/View/UserHome.php" class="text-blue-500 hover:underline">Inicio</a>
+        <a href="' . $APP_URL . '/View/UserLoginRegister.php?view=Register" class="text-blue-500 hover:underline">Registrarse</a>
+        <a href="' . $APP_URL . '/View/UserLoginRegister.php?view=Login" class="text-blue-500 hover:underline">Iniciar sesión</a>
       </div>
     </header>
     
@@ -28,8 +30,8 @@
       </div>
 
       <div class="space-x-4">
-        <a href="'. $APP_URL . '/View/index.php" class="text-blue-500 hover:underline">Inicio</a>
-        <a href="'. $APP_URL . '/View/ProductsView.php" class="text-blue-500 hover:underline">Productos</a>
+        <a href="'. $APP_URL . '/View/UserHome.php" class="text-blue-500 hover:underline">Inicio</a>
+        <a href="'. $APP_URL . '/View/UserProducts.php" class="text-blue-500 hover:underline">Productos</a>
         <a href="'. $APP_URL . '/View/UserMyAccount.php" class="text-blue-500 hover:underline">Mi Cuenta</a>
         <a href="'. $APP_URL . '/View/UserLogOut.php" class="text-blue-500 hover:underline">Cerrar sesión</a>
       </div>
@@ -46,8 +48,8 @@
       </div>
 
       <div class="space-x-4">
-        <a href="'. $APP_URL . '/View/index.php" class="text-blue-500 hover:underline">Inicio</a>
-        <a href="'. $APP_URL . '/View/ProductsView.php" class="text-blue-500 hover:underline">Productos</a>
+        <a href="'. $APP_URL . '/View/UserHome.php" class="text-blue-500 hover:underline">Inicio</a>
+        <a href="'. $APP_URL . '/View/UserProducts.php" class="text-blue-500 hover:underline">Productos</a>
         <a href="'. $APP_URL . '/View/AdminPanelHome.php" class="text-blue-500 hover:underline">Administración</a>
         <a href="'. $APP_URL . '/View/UserMyAccount.php" class="text-blue-500 hover:underline">Mi Cuenta</a> 
         <a href="'. $APP_URL . '/View/UserLogOut.php" class="text-blue-500 hover:underline">Cerrar sesión</a>
