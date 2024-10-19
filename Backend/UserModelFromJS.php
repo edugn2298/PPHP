@@ -1,4 +1,8 @@
 <?php
+require "vendor/autoload.php";
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
 class UserModel {
   public function GetUserById($conexion, $user_id) {
     $stmt = $conexion->prepare("SELECT * FROM Users WHERE id = ?");
@@ -127,19 +131,28 @@ class UserModel {
     $stmt->bind_result($count);
     $stmt->fetch();
     if ($count > 0) {
-      $email = htmlspecialchars($email);
+      $mail = new PHPMailer(true);
       $token = bin2hex(random_bytes(32));
       $GLOBALS['token'] = $token;
-      $to = $email;
-      $subject = 'Recuperar contrasenya';
-      $message = 'Hola, esta es su contrasenya temporal: ' . $token;
-      $headers = 'From: edugn2298@gmail.com' . "\r\n". 'X-Mailer: PHP/' . phpversion();
-      if (mail($to, $subject, $message, $headers)) {
-        return json_encode(['success' => true, 'message' => 'Enviado correctamente']);
-      } else {
+      try {
+        $mail->CharSet = 'UTF-8';
+        $mail->Debugoutput = 'html';
+        $mail->isSMTP();
+        $mail->Host = 'smtp.gmail.com';
+        $mail->SMTPAuth = true;
+        $mail->Username = 'edugn2298@gmail';
+        $mail->Password = 'czgf ozgm vfpi jtbv';
+        $mail->SMTPSecure = 'tls';
+        $mail->Port = 587;
+        $mail->setFrom('edugn2298@gmail', 'czgf ozgm vfpi jtbv');
+        $mail->addAddress($email);
+        $mail->isHTML(true);
+        $mail->Subject = 'Recuperar contrasenya';
+        $mail->Body = 'Hola, esta es su contrasenya temporal: ' . $token;
+        $mail->send();
+      } catch (Exception $e) {
         return json_encode(['success' => false, 'message' => 'Error al enviar']);
       }
-      
     } else {
       return json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
     }
