@@ -66,18 +66,18 @@ document.addEventListener('DOMContentLoaded', function() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        action: "RecoveryPassword",
+        action: "RecoveryPass",
         email: email.value
       }),
     })
       .then((response) => response.json())
       .then((data) => {
         if (data.success) {
-          alert(data.message);
-          formRecovery.reset();
+          console.log(data.message);
+          //formRecovery.reset();
         } else {
-          alert(data.message);
-          formRecovery.reset();
+          console.log(data.message);
+          //formRecovery.reset();
         }
       })
       .catch((error) => {

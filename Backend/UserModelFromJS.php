@@ -1,5 +1,5 @@
 <?php
-require "vendor/autoload.php";
+require __DIR__ . '/../vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -135,21 +135,22 @@ class UserModel {
       $token = bin2hex(random_bytes(32));
       $GLOBALS['token'] = $token;
       try {
-        $mail->CharSet = 'UTF-8';
         $mail->Debugoutput = 'html';
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'edugn2298@gmail';
-        $mail->Password = 'czgf ozgm vfpi jtbv';
+        $mail->Username = 'edugn2298@gmail'; //Correo de autenticacion de SMTP
+        $mail->Password = 'czgf ozgm vfpi jtbv'; //Contraseña de autenticacion SMTP
         $mail->SMTPSecure = 'tls';
         $mail->Port = 587;
-        $mail->setFrom('edugn2298@gmail', 'czgf ozgm vfpi jtbv');
-        $mail->addAddress($email);
+        $mail->setFrom("edugn2298@gmail.com");//Remitente
+        $mail->addAddress($email);//Destinatario
+        //Contenido del correo
         $mail->isHTML(true);
         $mail->Subject = 'Recuperar contrasenya';
         $mail->Body = 'Hola, esta es su contrasenya temporal: ' . $token;
         $mail->send();
+        return json_encode(['success' => true, 'message' => 'Enviado correctamente']);
       } catch (Exception $e) {
         return json_encode(['success' => false, 'message' => 'Error al enviar']);
       }
