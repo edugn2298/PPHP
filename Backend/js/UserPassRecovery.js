@@ -21,15 +21,11 @@ document.addEventListener('DOMContentLoaded', function() {
     formRecoveryPass.classList.add('hidden');
     formRecovery.classList.remove('hidden');
     formToken.classList.add('hidden');
-  }
-
-  if (view == "recoveryPass") {
+  } else if (view == "recoveryPass") {
     formRecoveryPass.classList.remove('hidden');
     formRecovery.classList.add('hidden'); 
     formToken.calassList.add('hidden');
-  }
-
-  if (view == "token") {
+  } else if (view == "token") {
     formRecoveryPass.classList.add('hidden');
     formRecovery.classList.add('hidden');
     formToken.classList.remove('hidden');
@@ -59,29 +55,38 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   })
 
-  formRecovery.addEventListener('submit', function(event) {
+  formRecovery.addEventListener("submit", function (event) {
+    event.preventDefault(); // Prevenir el envío del formulario
+
     fetch("../Backend/UserControllerFromJS.php", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        action: "RecoveryPass",
-        email: email.value
+        action: "RecoveryPassword",
+        email: email.value,
       }),
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Error en la respuesta de red");
+        }
+        return response.json();
+      })
       .then((data) => {
         if (data.success) {
           console.log(data.message);
-          //formRecovery.reset();
+          formRecovery.reset();
+          window.location.href = "../View/UserPassRecovery.php?view=token";
         } else {
           console.log(data.message);
-          //formRecovery.reset();
+          formRecovery.reset();
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        console.error("Error:", error.message);
       });
   });
+
 });

@@ -127,12 +127,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       break;
     
     case 'RecoveryPass':
-      if ($data['code'] === $GLOBALS['token']) {
-        header("Location: $APP_URL .View/UserPassRecovery.php?view=token");
-      }else{
-        echo json_encode(['success' => false, 'message' => 'Token incorrecto,intente de nuevo']);
-      }
-      break;
+
 
     default:
       echo json_encode(['success' => false, 'message' => 'Acción no válida']);

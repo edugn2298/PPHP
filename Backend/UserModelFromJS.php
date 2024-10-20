@@ -124,41 +124,45 @@ class UserModel {
   }
 
   public function RecoveryPassword($conexion, $user_data) {
-    $email = $user_data['email'];
-    $stmt = $conexion->prepare("SELECT COUNT(*) FROM Users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->bind_result($count);
-    $stmt->fetch();
-    if ($count > 0) {
-      $mail = new PHPMailer(true);
-      $token = bin2hex(random_bytes(32));
-      $GLOBALS['token'] = $token;
-      try {
-        $mail->Debugoutput = 'html';
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'edugn2298@gmail'; //Correo de autenticacion de SMTP
-        $mail->Password = 'czgf ozgm vfpi jtbv'; //Contraseña de autenticacion SMTP
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
-        $mail->setFrom("edugn2298@gmail.com");//Remitente
-        $mail->addAddress($email);//Destinatario
-        //Contenido del correo
-        $mail->isHTML(true);
-        $mail->Subject = 'Recuperar contrasenya';
-        $mail->Body = 'Hola, esta es su contrasenya temporal: ' . $token;
-        $mail->send();
-        return json_encode(['success' => true, 'message' => 'Enviado correctamente']);
-      } catch (Exception $e) {
-        return json_encode(['success' => false, 'message' => 'Error al enviar']);
-      }
-    } else {
-      return json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
-    }
+  $email = $user_data['email'];
+  $stmt = $conexion->prepare("SELECT COUNT(*) FROM Users WHERE email = ?");
+  $stmt->bind_param("s", $email);
+  $stmt->execute();
+  $stmt->bind_result($count);
+  $stmt->fetch();
 
+  if ($count > 0) {
+    $mail = new PHPMailer(true);
+    $token = bin2hex(random_bytes(32));
+    $GLOBALS['token'] = $token;
+
+    try {
+      $mail->Debugoutput = 'html';
+      $mail->isSMTP();
+      $mail->Host = 'smtp.gmail.com';
+      $mail->SMTPAuth = true;
+      $mail->Username = 'edugn2298@gmail.com'; // Correo de autenticación SMTP
+      $mail->Password = 'czgf ozgm vfpi jtbv'; // Contraseña de autenticación SMTP
+      $mail->SMTPSecure = 'tls';
+      $mail->Port = 587;
+      $mail->setFrom("edugn2298@gmail.com"); // Remitente
+      $mail->addAddress($email); // Destinatario
+      // Contenido del correo
+      $mail->isHTML(true);
+      $mail->Subject = 'Recuperar contraseña';
+      $mail->Body = 'Hola, esta es su contraseña temporal: ' . $token;
+
+      $mail->send();
+      return json_encode(['success' => true, 'message' => 'Enviado correctamente']); // Asegúrate de retornar después de enviar el correo
+    } catch (Exception $e) {
+      error_log($e->getMessage()); // Registrar el error para depuración
+      return json_encode(['success' => false, 'message' => 'Error al enviar: ' . $e->getMessage()]);
+    }
+  } else {
+    return json_encode(['success' => false, 'message' => 'Usuario no encontrado']);
   }
+}
+
 
 }
 ?>
