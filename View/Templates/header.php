@@ -5,7 +5,6 @@
   }
   if (!isset($_SESSION['email'])) {
     echo '
-    
     <header class="bg-white shadow-md p-4 flex justify-between items-center">
       <div class="flex items-center">
         <img src="' . $APP_URL . '/img/mi-logo.webp" alt="Logo" class="h-8 w-24 mr-2">
@@ -18,11 +17,9 @@
         <a href="' . $APP_URL . '/View/UserLoginRegister.php?view=Login" class="text-blue-500 hover:underline">Iniciar sesión</a>
       </div>
     </header>
-    
     ';
   } else if ($_SESSION['user_type'] == 'user') {
     echo '
-    
     <header class="bg-white shadow-md p-4 flex justify-between items-center">
       <div class="flex items-center">
         <img src="./img/mi-logo.webp" alt="Logo" class="h-8 w-24 mr-2">
@@ -36,11 +33,9 @@
         <a href="'. $APP_URL . '/View/UserLogOut.php" class="text-blue-500 hover:underline">Cerrar sesión</a>
       </div>
     </header>
-    
     ';
   } else if ($_SESSION['user_type'] == 'admin') {
     echo '
-    
     <header class="bg-white shadow-md p-4 flex justify-between items-center">
       <div class="flex items-center">
         <img src="./img/mi-logo.webp" alt="Logo" class="h-8 w-24 mr-2">
@@ -55,8 +50,6 @@
         <a href="'. $APP_URL . '/View/UserLogOut.php" class="text-blue-500 hover:underline">Cerrar sesión</a>
       </div>
     </header>
-    
     ';
-  }  
-
+  }
 ?>

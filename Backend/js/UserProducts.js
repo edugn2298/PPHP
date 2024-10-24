@@ -15,9 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
       products.forEach((product) => {
         const row = document.createElement("div");
         row.innerHTML = `
-            <div class="products-container bg-gray-200 flex items-center justify-around h-screen">
-    <div class="max-w-sm mx-auto bg-white shadow-md rounded-lg overflow-hidden">
-      <img class="w-full h-48 object-cover" src="../uploads/${product.image}.webp" alt="${product.name}">
+    <div class=""product-card bg-white shadow-md rounded-lg overflow-hidden">
+      <img class="w-48 h-48 object-cover" src="../uploads/${product.id}.webp" alt="${product.name}">
       <div class="p-4">
         <h3 class="text-xl font-bold mb-2">${product.name}</h3>
         <div class="flex items-center justify-between">
@@ -25,7 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
           <button class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Comprar</button>
         </div>
       </div>
-    </div>
         `;
         productsContainer.appendChild(row);
       });
