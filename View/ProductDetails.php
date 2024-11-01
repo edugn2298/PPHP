@@ -8,11 +8,14 @@
 </head>
 <body>
   <?php require_once "./Templates/header.php" ?>
-  
+  <div class="container py-16 product-details">
+
+  </div>
+
 
 
   <?php require_once "./Templates/footer.php" ?>
   <div></div>
-  <script src="../Backend/js/ProductDetails.js"></script>
+  <script type="module" src="../Backend/js/ProductDetails.js"></script>
 </body>
 </html>
